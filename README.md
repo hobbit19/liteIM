@@ -22,6 +22,7 @@ Security is at the forefront of our services. Users' private keys are RSA encryp
 
 - Facebook: ([Lite.IM](https://m.me/Lite.IM))
 - Telegram: ([@LiteIM_bot](https://telegram.me/LiteIM_bot))
+- Zalo: ([Lite.IM](zalo.me/162072345184879763))
 - SMS: 
     - US/CAN: +1-760-LITEIM-0 (+1-760-548-3460)
 
@@ -61,5 +62,13 @@ Follow Zulu Republic on Twitter at [@ztxrepublic](www.twitter.com/ztxrepublic).
 
 ## 9. What's New In This Version
 
-- Implement secure password form to prevent sensitive information from being captured by third parties.
-- Implement support for Facebook Messenger
+- Add support for ZTX and ETH
+- Implement secure webview for exporting private key data
+- Link accounts by phone number during onboarding on a new platform
+- Complete multilingual support including menu options
+- Vietnamese translations
+- Language selection conversations
+- Better transactions details instead of presenting only the transaction hash
+- Dyamic menus to allow for easier implementation on new platforms
+- Implement support for Zalo
+- Refined codebase that is easier for maintenance and development

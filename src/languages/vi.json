@@ -1,0 +1,413 @@
+{
+    "menuSupport": {
+        "request": {
+            "changeLanguage": [
+                "Vui lòng chọn ngôn ngữ ưu tiên của bạn."
+            ],
+            "changeEmail": {
+                "newEmail": [
+                    "Không thành vấn đề; hãy cùng thay đổi email của bạn. Bạn muốn thay đổi nó thành địa chỉ nào?"
+                ],
+                "code": [
+                    "Vui lòng nhập vào đoạn mã xác thực hai nhân tố mà bạn vừa nhận được thông qua tin nhắn SMS."
+                ],
+                "password": [
+                    "Vui lòng sử dụng mẫu đơn bảo mật có yêu cầu mật khẩu để thay đổi email của bạn thành ${newEmail}."
+                ]
+            },
+            "changePassword": {
+                "code": [
+                    "Tôi biết là bạn muốn thay đổi mật khẩu của mình. Xin vui lòng nhập vào mã bảo mật mà bạn vừa nhận được qua tin nhắn SMS."
+                ],
+                "password": [
+                    "Vui lòng sử dụng mẫu đơn bảo mật để gửi đi mật khẩu hiện tại của bạn và thiết lập mật khẩu mới."
+                ]
+            },
+            "enable2fa": {
+                "number": [
+                    "Chúng ta sẽ cần thiết lập tính năng xác thực hai nhân tố để bảo vệ tài khoản của bạn. Vui lòng nhập vào số điện thoại di động của bạn theo định dạng này: \n+[Mã quốc gia][số điện thoại] \n\nVí dụ: +17185555555"
+                ],
+                "code": [
+                    "Vui lòng nhập vào đoạn mã mà bạn đã nhận được từ +${number}."
+                ],
+                "password": [
+                    "Vui lòng sử dụng mẫu đơn bảo mật có yêu cầu mật khẩu để gửi đi mật khẩu của bạn."
+                ]
+            },
+            "export": {
+                "token": [
+                    "Vui lòng chọn mã thông báo bạn muốn xuất."
+                ],
+                "type": [
+                    "Tôi có thể giúp bạn xuất dữ liệu của đoạn mã cá nhân từ ví ra, nhờ đó bạn có thể nhập nó vào một ví khác. Hãy nhớ phải giữ bảo mật thông tin này, và đừng chia sẻ với bất kỳ ai! Bạn có muốn tôi hiển thị cho bạn thấy đoạn mã cá nhân WIF của mình, hay là muốn tôi hiển thị cụm từ giúp gợi nhớ của bạn không?"
+                ],
+                "code": [
+                    "Vui lòng nhập vào đoạn mã xác thực hai nhân tố mà bạn vừa nhận được thông qua tin nhắn SMS."
+                ],
+                "password": [
+                    "Vui lòng sử dụng mẫu đơn bảo mật có yêu cầu mật khẩu để nhập mật khẩu của bạn vào rồi tôi sẽ hiển thị ngay cho bạn."
+                ]
+            },
+            "send": {
+                "token": [
+                    "Vui lòng chọn mã thông báo bạn muốn gửi."
+                ],
+                "to": [
+                    "Bạn muốn chuyển ${token} đến ai? Bạn có thể gửi cho tôi một địa chỉ email hợp lệ, một số điện thoại hợp lệ, hoặc một địa chỉ ${token} hợp lệ."
+                ],
+                "currency": [
+                    "Bạn muốn hiển thị số tiền theo USD ($) hay ${token} (${symbol})?\n"
+                ],
+                "amount": [
+                    "Bạn muốn chuyển đến ${to} lượng tiền bao nhiêu , hiển thị theo ${currency}? \n\nVí dụ: 1,50"
+                ],
+                "code": [
+                    "Vui lòng nhập vào đoạn mã xác thực hai nhân tố mà bạn vừa nhận được thông qua tin nhắn SMS."
+                ],
+                "password": [
+                    "Vui lòng sử dụng mẫu đơn bảo mật có yêu cầu mật khẩu để gửi ${amount} đến ${to}."
+                ]
+            },
+            "signup": {
+                "language": [
+                    "Vui lòng chọn ngôn ngữ ưu tiên của bạn."
+                ],
+                "email": [
+                    "Địa chỉ email chính của bạn là gì?"
+                ],
+                "phone": [
+                    "Vui lòng nhập vào số điện thoại di động của bạn theo định dạng này: \n+[Mã quốc gia][số điện thoại] \n\nVí dụ: +17185555555"
+                ],
+                "code": [
+                    "PVui lòng nhập vào đoạn mã mà bạn đã nhận được từ +${number}."
+                ],
+                "password": [
+                    "Vui lòng sử dụng mẫu đơn bảo mật có yêu cầu mật khẩu để thiết lập một mật khẩu bảo mật cho tài khoản Lite.IM của bạn."
+                ]
+            },
+            "linkAccount": {
+                "code": [
+                    "Tôi thấy rằng bạn có sử dụng Lite.IM cùng với ${identifier} này ở một dịch vụ khác, bạn có muốn tôi liên kết các tài khoản này lại không? Nếu có, xin vui lòng nhập vào đoạn mã xác thực hai nhân tố mà bạn vừa nhận được thông qua tin nhắn SMS để tiếp tục."
+                ],
+                "password": [
+                    "Vui lòng sử dụng mẫu đơn bảo mật có yêu cầu mật khẩu để tôi có thể liên kết tài khoản này giúp bạn."
+                ]
+            },
+            "balance": {
+                "token": [
+                    "Vui lòng chọn mã thông báo bạn muốn kiểm tra số dư."
+                ]
+            },
+            "clear": {},
+            "help": [
+                "Bạn muốn thực hiện điều gì?"
+            ],
+            "receive": {
+                "token": [
+                    "Vui lòng chọn mã thông báo bạn muốn nhận."
+                ],
+                "type": [
+                    "Bạn có muốn xem địa chỉ ví của mình, mã QR, hoặc địa chỉ email đã đăng ký của mình không?"
+                ]
+            },
+            "transactions": {
+                "token": [
+                    "Vui lòng chọn mã thông báo mà bạn muốn xem."
+                ]
+            },
+            "code": [
+                "Vui lòng nhập vào đoạn mã xác thực hai nhân tố mà bạn vừa nhận được thông qua tin nhắn SMS."
+            ],
+            "numericInstructions": [
+                "Trả lời với mục menu muốn."
+            ],
+            "addBlockchain": {
+                "code": [
+                    "Vui lòng nhập mã xác thực hai yếu tố bạn nhận được qua SMS để nâng cấp ví Lite.IM của bạn."
+                ],
+                "password": [
+                    "Vui lòng sử dụng biểu mẫu mật khẩu an toàn để nâng cấp ví Lite.IM của bạn."
+                ]
+            }
+        },
+        "success": {
+            "changeEmail": [
+                "Thật tuyệt! Địa chỉ email của bạn đã được cập nhật thành ${newEmail}."
+            ],
+            "changePassword": [
+                "Bạn đã thay đổi mật khẩu của mình thành công. Vui lòng ghi nhớ mật khẩu mới của bạn, nhưng hãy giữ bí mật nó với người khác."
+            ],
+            "changeLanguage": [
+                "Chúng tôi đã chuyển ngôn ngữ của bạn thành '${language}'."
+            ],
+            "enable2fa": [
+                "Cảm ơn bạn đã đăng ký. Giờ thì bạn muốn thực hiện điều gì?"
+            ],
+            "export": [
+                "${secret}"
+            ],
+            "send": {
+                "sender": [
+                    "Giao dịch đã được chuyển đi! Xem chi tiết giao dịch bên dưới."
+                ],
+                "recipient": [
+                    "Bạn vừa nhận được ${symbol}${amount} từ ${sender}."
+                ]
+            },
+            "signup": [
+                "Bạn đã đăng ký thành công, đây là thông tin địa chỉ của bạn:\n\n${addresses}"
+            ],
+            "linkAccount": [
+                "Thật tuyệt! Tôi đã liên kết tài khoản này với tài khoản LiteIM hiện có của bạn."
+            ],
+            "balance": {
+                "withUnconfirmed": [
+                    "Số dư của bạn là ${balance} ${token}, và số dư chưa xác nhận của bạn là ${unconfirmedBalance} ${token}."
+                ],
+                "withUnconfirmedUSD": [
+                    "Số dư của bạn là ${balance} ${token} hoặc $${balanceUSD}, và số dư chưa xác nhận của bạn là ${unconfirmedBalance} ${token} hoặc $${unconfirmedUSD}."
+                ],
+                "withoutUnconfirmed": [
+                    "Số dư của bạn là ${balance} ${token}."
+                ],
+                "withoutUnconfirmedUSD": [
+                    "Số dư của bạn là ${balance} ${token} hoặc $${balanceUSD}."
+                ]
+            },
+            "start": {
+                "welcome": [
+                    "Xin chào bạn! Vui lòng Đăng ký để bắt đầu. Với việc đăng ký, bạn sẽ đồng thuận với các điều khoản và điều kiện của chúng tôi tại https://www.zulurepublic.io/terms-and-conditions/, và với chính sách về quyền riêng tư của chúng tôi tại: https://www.lite.im/privacy-policy/"
+                ],
+                "welcomeBack": [
+                    "Xin chào, thật vui được gặp lại bạn. Bạn muốn thực hiện điều gì?"
+                ]
+            },
+            "clear": [
+                "Lệnh đã được xóa."
+            ],
+            "help": {},
+            "receive": {
+                "wallet": [
+                    "${wallet}"
+                ],
+                "qr": [
+                    ""
+                ],
+                "email": [
+                    "${email}"
+                ]
+            },
+            "transactions": [
+                "Đây là phần nội dung của ${moreThanOne} giao dịch gần đây nhất của bạn:"
+            ],
+            "more": [
+                "Đây là một vài tùy chọn khác."
+            ],
+            "main": [
+                "Bạn muốn thực hiện điều gì?"
+            ],
+            "settings": [
+                "Bạn muốn thay đổi thiết lập nào?"
+            ],
+            "addBlockchain": [
+                "Sự thành công! Dưới đây là những gì chúng tôi đã tạo cho bạn: \n\n${addresses}"
+            ]
+        },
+        "failure": {
+            "unknownInput": [
+                "Xin lỗi bạn, tôi chưa hiểu ý bạn lắm. Vui lòng hủy bỏ và thử lại."
+            ],
+            "generic": [
+                "Xin lỗi bạn, tôi gặp phải một sự cố với yêu cầu của bạn.. Vui lòng thử lại.",
+                "Đã có lỗi xảy ra, vui lòng thử lại."
+            ],
+            "conversation": {
+                "unexpectedInput": [
+                    "Không chắc là bây giờ nên làm gì. Sử dụng “Hủy bỏ” để hủy bỏ lệnh hiện hành."
+                ],
+                "invalidStep": [
+                    "Vui lòng nhập vào một ${step} hợp lệ."
+                ],
+                "unexpectedStepError": [
+                    "Đã có lỗi xảy ra, vui lòng thử gửi lại \"${step}\"."
+                ]
+            },
+            "twoFactor": {
+                "invalid": [
+                    "Bạn đã nhập vào một đoạn mã không hợp lệ, hoặc đoạn mã mà chúng tôi gửi cho bạn đã hết hiệu lực. Vui lòng thử lại."
+                ],
+                "authRequired": [
+                    "Hành động này yêu cầu xác thực hai yếu tố. Có thể phiên của bạn đã hết hạn, vui lòng hủy và thử lại."
+                ],
+                "numberInUse": [
+                    "Xin lỗi bạn, nhưng số điện thoại này đã được dùng để đăng ký. Vui lòng thử lại với một số điện thoại khác theo định dạng này: \n+[Mã quốc gia][số điện thoại] \n\nVí dụ: +17185555555"
+                ],
+                "notEnabled": [
+                    "Tính năng hai nhân tố chưa được kích hoạt."
+                ],
+                "notFound": [
+                    "Không thể tìm thấy số điện thoại của người dùng này."
+                ],
+                "noPending": [
+                    "Số điện thoại này không có hai nhân tố nào chờ duyệt."
+                ]
+            },
+            "alreadyRegistered": [
+                "Bạn đã có tài khoản, bạn không cần đăng ký."
+            ],
+            "password": [
+                "Mật khẩu không hợp lệ, vui lòng thử lại."
+            ],
+            "changeEmail": {
+                "addressInUse": [
+                    "Xin lỗi bạn, nhưng địa chỉ email này đã được dùng để đăng ký. Vui lòng sử dụng một địa chỉ khác."
+                ],
+                "backend": [
+                    "Xảy ra lỗi khi thay đổi địa chỉ email."
+                ]
+            },
+            "changePassword": {
+                "backend": [
+                    "Xảy ra lỗi khi thay đổi mật khẩu."
+                ],
+                "password": [
+                    "Vui lòng sử dụng biểu mẫu mật khẩu an toàn để gửi mật khẩu hiện tại của bạn và đặt mật khẩu mới của bạn."
+                ]
+            },
+            "enable2fa": {},
+            "export": {
+                "backend": [
+                    "Xin lỗi bạn, tôi gặp phải một sự cố khi tìm nạp ${type} của bạn.. Vui lòng thử lại."
+                ]
+            },
+            "send": {
+                "zeroBalance": [
+                    "Bạn không còn ${token} để chuyển đi. Sử dụng “Nhận” để nạp tiền cho ví Lite.IM của bạn."
+                ],
+                "noUTXOs": [
+                    "Tôi không thể tìm thấy khoản giao dịch chưa sử dụng cho ví của bạn. Hãy đảm bảo rằng ví của bạn đã được nạp tiền và lượng tiền nạp vào của bạn phải có ít nhất một xác nhận, rồi sau đó thử lại."
+                ],
+                "fetchBalance": [
+                    "Tôi không thể tìm nạp số dư của bạn. Sử dụng “Hủy bỏ” để bắt đầu lại từ đầu."
+                ],
+                "transaction": [
+                    "Tôi đã gặp phải vấn đề khi xử lý giao dịch của bạn. Vui lòng thử lại."
+                ],
+                "invalidAddress": [
+                    "Bạn chỉ có thể chuyển tiền đến các địa chỉ email và các địa chỉ ${token}. Vui lòng thử lại."
+                ],
+                "notRegistered": [
+                    "Xin lỗi bạn, nhưng ${entry} vẫn chưa đăng ký với Lite.IM. Hãy báo cho họ biết rằng họ còn gì thiếu sót, rồi bạn sẽ có thể bắt đầu gửi tiền cho họ ngay."
+                ],
+                "gas": [
+                    "Bạn không đủ đủ ETH để bao gồm giá trị để dùng giao dịch này."
+                ]
+            },
+            "signup": {
+                "backend": [
+                    "Tạo ví không thành công, vui lòng thử lại."
+                ]
+            },
+            "balance": {
+                "backend": [
+                    "Đã có lỗi khi truy vấn số dư."
+                ]
+            },
+            "clear": [
+                "Đã xảy ra vấn đề khi xóa các lệnh của bạn. Vui lòng thử lại hoặc gửi dấu “?”"
+            ],
+            "help": {},
+            "receive": {
+                "fetchAddress": "Tôi đã gặp phải vấn đề khi truy lục địa chỉ nhận giao dịch của bạn. Vui lòng thử lại, rất xin lỗi về điều này."
+            },
+            "transactions": {
+                "noTransactions": [
+                    "Hmm, có vẻ như tôi không tìm được bất kỳ giao dịch nào cho bạn rồi."
+                ]
+            },
+            "firestore": {
+                "emailExists": [
+                    "Xin lỗi bạn, nhưng địa chỉ email này đã được dùng để đăng ký. Vui lòng sử dụng một địa chỉ khác."
+                ]
+            },
+            "getPrice": [
+                "Tôi đã gặp phải sự cố khi cố tìm nạp tỉ giá USD. Vui lòng thử lại sau."
+            ]
+        }
+    },
+    "noMenuSupport": {
+        "request": {
+            "changeEmail": {
+                "password": [
+                    "Vui lòng đáp lại bằng mật, hoặc sử dụng mẫu đơn bảo, khẩu của bạn nếu bạn muốn thay đổi email của mình thành ${newEmail}."
+                ]
+            },
+            "changePassword": {
+                "password": [
+                    "Vui lòng nhập vào mật khẩu hiện tại của bạn, tiếp sau đó là mật khẩu mới của bạn, hai mật khẩu tách biệt nhau bởi một khoảng trống, hoặc sử dụng mẫu đơn bảo. \n\nVí dụ: mậtkhẩuhiệntạicủabạn mậtkhẩumới"
+                ]
+            },
+            "enable2fa": {
+                "password": [
+                    "Vui lòng nhập vào mật khẩu của bạn, hoặc sử dụng mẫu đơn bảo."
+                ]
+            },
+            "export": {
+                "password": [
+                    "Vui lòng đáp lại bằng mật, hoặc sử dụng mẫu đơn bảo, khẩu của bạn và tôi sẽ hiển thị ngay cho bạn."
+                ]
+            },
+            "send": {
+                "password": [
+                    "Nếu bạn muốn chuyển ${amount} đến ${to}, vui lòng đáp lại bằng mật khẩu để tôi có thể tiếp tục xử lý, hoặc sử dụng mẫu đơn bảo."
+                ]
+            },
+            "signup": {
+                "password": [
+                    "Vui lòng nhập vào một mật khẩu bảo mật cho tài khoản Lite.IM của bạn, hoặc sử dụng mẫu đơn bảo."
+                ]
+            },
+            "linkAccount": {
+                "password": [
+                    "Vui lòng đáp lại bằng mật khẩu của bạn để tôi có thể liên kết tài khoản này giúp bạn, hoặc sử dụng mẫu đơn bảo."
+                ]
+            },
+            "addBlockchain": {
+                "password": [
+                    "Vui lòng trả lời bằng mật khẩu của bạn hoặc sử dụng biểu mẫu mật khẩu an toàn, để nâng cấp ví Lite.IM của bạn."
+                ]
+            }
+        }
+    },
+    "buttons": {
+        "clear": "Hủy bỏ",
+        "cancel": "Hủy bỏ",
+        "back": "🔙 Quay lại",
+        "securePassword": "Mật khẩu bảo mật",
+        "send": "💸 Gửi",
+        "receive": "💰 Nhận",
+        "balance": "🏦 Số dư",
+        "transactions": "📑 Các giao dịch",
+        "more": "➡️ Khác...",
+        "settings": "⚙️ Các thiết lập",
+        "changePassword": "🔒 Thay đổi mật khẩu",
+        "changeEmail": "📧 Thay đổi Email",
+        "changeLanguage": "🔤 Thay đổi ngôn ngữ",
+        "export": "👛 Xuất dữ liệu từ ví",
+        "register": "Đăng ký",
+        "wallet": "Ví",
+        "qr": "QR",
+        "email": "Email",
+        "newCode": "Mã mới",
+        "changeNumber": "Thay đổi số",
+        "key": "🗝 Key",
+        "phrase": "🔡 Đoạn mã cá nhân",
+        "USD": "$",
+        "LTC": "Ł",
+        "sendAll": "Chuyển toàn bộ",
+        "mainMenu": "Bảng chọn chính",
+        "letsBegin": "Hãy cùng bắt đầu nào!",
+        "enable2fa": "Bật bảo mật",
+        "tryAgain": "Thử lại"
+    }
+}

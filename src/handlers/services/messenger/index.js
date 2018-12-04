@@ -1,51 +1,92 @@
-const request = require('request')
+const functionHandler = require('../../functions')
 
-const serviceOptions = {
-    keyboardSupport: true,
+const options = {
+    menuSupport: true,
     htmlSupport: false,
-    characterLimit: true,
     transactionLimit: 1
 }
 
-const sendMessage = (to, body, buttons = [], extraData = {}) => {
-    let messageData = { text: body }
-    if (buttons && Array.isArray(buttons) && buttons.length > 3) messageData.quick_replies = buttons
+const initialize = (data, service) => {
+
+    let serviceData = { options }
+    let webhookData = data.body
+
+    let messaging_events = webhookData.entry[0].messaging
+    let event = messaging_events[0]
+    let serviceID = event.sender.id
+
+    let message
+    if (event.postback) {
+        message = event.postback.payload
+    }
+    else if (event.message.quick_reply) {
+        message = event.message.quick_reply.payload
+    }
+    else {
+        message = event.message.text
+    }
+
+    serviceData.service = service
+    serviceData.serviceID = serviceID
+    serviceData.message = message.trim()
+
+    return serviceData
+
+}
+
+const prepareResponse = async (message, menu, serviceData, responseData) => {
+    const { service, serviceID } = serviceData
+    const { image } = responseData
+
+    menu = formatMenu(menu)
+
+    return {
+        service,
+        serviceID,
+        message,
+        menu,
+        image
+    }
+}
+
+const send = async (responsePayload) => {
+    const { service, serviceID, message, menu, image } = responsePayload
+
+    let messageData = { text: message }
+    if (menu && menu.length > 3) messageData.quick_replies = menu
     else {
         messageData = {
             "attachment": {
                 "type": "template",
                 "payload": {
                     "template_type": "button",
-                    "text": body,
-                    "buttons": buttons
+                    "text": message,
+                    "buttons": menu
                 }
             }
         }
     }
 
-    if (Object.keys(extraData).length > 0 &&
-        extraData._type &&
-        extraData._type === 'image') {
-
+    if (image) {
         messageData = {
-            "attachment":{
-                "type":"template",
-                "payload":{
-                    "template_type":"generic",
-                    "elements":[
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [
                         {
-                            "title":"Receive Address",
-                            "image_url": extraData.url,
-                            "subtitle": extraData.caption,
+                            "title": image.title,
+                            "image_url": image.url,
+                            "subtitle": image.caption,
                             "default_action": {
                                 "type": "web_url",
-                                "url": extraData.url,
+                                "url": image.url,
                                 "webview_height_ratio": "full",
                             },
                             "buttons": [{
-                                "type":"postback",
-                                "title":"Back",
-                                "payload":"/main"
+                                "type": "postback",
+                                "title": menu[0].title,
+                                "payload": menu[0].payload
                             }]
                         }
                     ]
@@ -54,16 +95,20 @@ const sendMessage = (to, body, buttons = [], extraData = {}) => {
         }
     }
 
+    let token = (process.env.STAGE === 'production')
+        ? process.env.FACEBOOK_MESSENGER_PROD_TOKEN
+        : process.env.FACEBOOK_MESSENGER_DEV_TOKEN
+
+    const request = require('request')
     return request(
         {
             url: 'https://graph.facebook.com/v2.6/me/messages',
             qs: {
-                access_token:
-                    process.env.FACEBOOK_MESSENGER_TOKEN
+                access_token: token
             },
             method: 'POST',
             json: {
-                recipient: { id: to },
+                recipient: { id: serviceID },
                 message: messageData
             }
         },
@@ -75,21 +120,10 @@ const sendMessage = (to, body, buttons = [], extraData = {}) => {
     )
 }
 
-const generateTextSuggestions = (success, isUser, extraData, res) => {
-    let keyboards = require('../../keyboards')
-    let keyboard = keyboards.getKeyboard(
-        success,
-        res.locals.command,
-        res.locals.step,
-        isUser,
-        extraData,
-        true,
-        res
-    )
-
+const formatMenu = (menu) => {
     let buttons = []
-    if (keyboard.length > 3){
-        keyboard.forEach(button => {
+    if (menu.length > 3){
+        menu.forEach(button => {
             buttons.push({
                 content_type: 'text',
                 title: button.text,
@@ -97,7 +131,7 @@ const generateTextSuggestions = (success, isUser, extraData, res) => {
             })
         })
     } else {
-        keyboard.forEach(button => {
+        menu.forEach(button => {
             if (button.type === 'securePassword') {
                 buttons.push({
                     type: 'web_url',
@@ -127,92 +161,6 @@ const generateTextSuggestions = (success, isUser, extraData, res) => {
     return buttons
 }
 
-const middleware = async (req, res) => {
-    res.submit = async (success, content, extraData = {}, notifier = {}) => {
-        let isUser = false
-        if (res.locals.user) isUser = true
-
-        // let menu = await require('../../menu_handler')(success, isUser, res)
-        let menu = generateTextSuggestions(success, isUser, extraData, res)
-
-        if (Object.keys(extraData).length > 0 && extraData._type !== 'image') {
-            for (let key in extraData) {
-                if (!extraData.hasOwnProperty(key)) continue
-
-                if (Array.isArray(extraData[key])) {
-                    extraData[key].forEach(datum => {
-                        if (datum.url) {
-                            content += `\n\n${datum.url}`
-                        }
-                    })
-                } else {
-                    if (extraData[key].url) {
-                        content += `\n\n${extraData[key].url}`
-                    }
-                }
-            }
-        }
-
-        if (Object.keys(notifier).length > 0) {
-            let { address, sender, txid, amount } = notifier
-            const notifierHandler = require('../../notifier')
-            await notifierHandler({ address, sender, txid, amount })
-        }
-
-        // if (menu && menu.length > 0) content += menu
-        await sendMessage(res.locals.serviceID, content, menu, extraData)
-
-        return true
-    }
-
-    if (!res.locals.message) {
-        try {
-            let messaging_events = req.body.entry[0].messaging
-            let event = messaging_events[0]
-
-            if (!event) return { success: false, error: 'no message available' }
-            if (!event.postback && (!event.message || !event.message.text))
-                return { success: false, error: 'Invalid message' }
-
-            let sender = event.sender.id
-
-            // "inject" the userId & body into the locals.
-            res.locals.serviceOptions = serviceOptions
-            res.locals.serviceID = sender // User's facebook id
-
-            if (event.postback) {
-                res.locals.message = event.postback.payload
-            }
-            else if (event.message.quick_reply) {
-                res.locals.message = event.message.quick_reply.payload
-            }
-            else {
-                res.locals.message = event.message.text
-            }
-
-            return { success: true }
-        } catch (e) {
-            console.error('Error in messenger parsers:', e)
-            return { success: false, error: e.message || e.toString() }
-        }
-    } else {
-        return { success: true }
-    }
+module.exports = {
+    options, initialize, prepareResponse, send
 }
-
-const notifier = async (user, sender, txid, amount, url) => {
-    let serviceID = user.services.messenger
-    if (serviceID) {
-        const Responder = require('../../responder')
-        let responder = new Responder(serviceOptions)
-        let message = responder.response('success', 'send', 'recipient', {
-            amount,
-            username: sender
-        })
-        message += '\n\n' + url
-
-        await sendMessage(serviceID, message)
-    }
-}
-
-module.exports = { serviceOptions, middleware, sendMessage, notifier }

@@ -1,185 +1,143 @@
-const Firestore = require('../../firestore_handler')
-const TelegramMessenger = require('./telegramMessenger')
+const functionHandler = require('../../functions')
 
-const serviceOptions = {
-    keyboardSupport: true,
-    htmlSupport: true,
-    characterLimit: false
+const options = {
+    menuSupport: true,
+    htmlSupport: true
 }
 
-const firebase = new Firestore('telegram', serviceOptions)
+const initialize = (data, service) => {
+    let serviceData = { options }
+    let webhookData = data.body
 
-const middleware = async (req, res) => {
-    res.submit = async (success, content, extraData = {}, notifier = {}) => {
-        let isUser = false
-        if (res.locals.user) isUser = true
-
-        if (
-            Object.keys(extraData).length > 0 &&
-            extraData._type &&
-            extraData._type === 'image'
-        ) {
-            content = {
-                type: 'photo',
-                url: extraData.url,
-                caption: extraData.caption
-            }
-            extraData = {}
-        }
-
-        let keyboards = require('../../keyboards')
-        let keyboard = keyboards.getKeyboard(
-            success,
-            res.locals.command,
-            res.locals.step,
-            isUser,
-            extraData,
-            false,
-            res
-        )
-
-        if (Object.keys(notifier).length > 0) {
-            let { address, sender, txid, amount } = notifier
-            const notifierHandler = require('../../notifier')
-            await notifierHandler({ address, sender, txid, amount })
-        }
-
-        await sendMessage(
-            res.locals.serviceID,
-            content,
-            keyboard,
-            res.locals.callbackMessageID
-        )
-
-        return true
+    let serviceID, callbackMessageID, messageContent
+    if (webhookData.message && webhookData.message.text) {
+        serviceID = webhookData.message.from.id
+        messageContent = webhookData.message.text
+    } else if (webhookData.callback_query) {
+        serviceID = webhookData.callback_query.from.id
+        callbackMessageID = webhookData.callback_query.message.message_id
+        messageContent = webhookData.callback_query.data
+    } else {
+        return false
     }
 
-    if (!res.locals.message) {
-        const webhookData = req.body
+    serviceData.service = service
+    serviceData.serviceID = serviceID
+    serviceData.message = messageContent.trim()
+    serviceData.callbackMessageID = callbackMessageID
 
-        if (!isValidRequest(webhookData))
-            return { success: false, error: 'Invalid webhook data.' }
+    return serviceData
+}
 
-        let userID, callbackMessageID, messageContent
-        if (webhookData.message) {
-            userID = webhookData.message.from.id
-            messageContent = webhookData.message.text
-        } else {
-            userID = webhookData.callback_query.from.id
-            callbackMessageID = webhookData.callback_query.message.message_id
-            messageContent = webhookData.callback_query.data
-        }
+const prepareResponse = async (message, menu, serviceData, responseData) => {
+    const { service, serviceID, callbackMessageID } = serviceData
+    const { image } = responseData
 
-        res.locals.serviceOptions = serviceOptions
-        res.locals.webhookData = webhookData
-        res.locals.serviceID = userID
-        res.locals.message = messageContent.trim()
-        res.locals.callbackMessageID = callbackMessageID //messageToEdit
-        res.locals.step = 0
+    menu = formatMenu(menu)
 
-        let parsedMessage = parseParams(res.locals.message)
-
-        if (parsedMessage) {
-            res.locals.command = res.locals.message
-        } else {
-            await firebase
-                .fetchCommandPartial(res.locals.serviceID)
-                .then(async convoPartial => {
-                    res.locals.command = convoPartial.data().command
-                    res.locals.step = Object.keys(convoPartial.data()).length
-                })
-                .catch(() => {})
-        }
-
-        if (!res.locals.command) res.locals.command = 'uncaught'
+    return {
+        service,
+        serviceID,
+        message,
+        menu,
+        callbackMessageID,
+        image
     }
-
-    return { success: true }
 }
 
-function isValidRequest(req) {
-    // TODO: change to use typeof
-    return (
-        req &&
-        ((req.callback_query && req.callback_query.data) ||
-            (req.message &&
-                req.message.chat &&
-                req.message.chat.id &&
-                req.message.from &&
-                req.message.from.id &&
-                req.message.text))
-    )
-}
+const send = async (responsePayload) => {
+    const { service, serviceID, message, menu, callbackMessageID, image } = responsePayload
+    let bot = require('./api')
 
-function parseParams(str) {
-    if (typeof str !== 'string') return
-    let params = str.split(/\s+/)
-    params = params.filter(param => param.length > 0)
-    if (params.length === 0) return
-    let command = params.shift()
-    if (!/^\/\S+/.test(command)) return
-    return { command, params }
-}
+    if (image) {
+        let messageIdToDelete = await functionHandler.getBotMessageID(service, serviceID)
+        if (messageIdToDelete.messageID)
+            await bot.deleteMessage(serviceID, messageIdToDelete.messageID)
 
-const sendMessage = async (userID, content, keyboard = [], callbackMessageID = null) => {
-    let messenger = new TelegramMessenger(userID, callbackMessageID)
-
-    if (content && typeof content === 'object') {
-        if (content.type === 'photo') {
-            let messageIdToDelete = await firebase.getBotMessageID(userID)
-            if (messageIdToDelete.messageID)
-                await messenger.deleteMessage(messageIdToDelete.messageID)
-
-            await messenger.sendPhoto(
-                content.url,
-                content.caption,
-                messenger.inlineKeyboard(keyboard)
-            )
-        }
+        await bot.sendPhoto(
+            serviceID,
+            image.url,
+            image.caption,
+            bot.inlineKeyboard(menu)
+        )
     } else {
         if (callbackMessageID) {
             try {
-                await messenger.editMessage(
-                    content,
-                    messenger.inlineKeyboard(keyboard)
+                await bot.editMessage(
+                    serviceID,
+                    callbackMessageID,
+                    message,
+                    bot.inlineKeyboard(menu)
                 )
             } catch (err) {
+                //if we can't edit the message, then delete the last one and send a new one
                 console.log(`Failed to edit message with error: ${err}`)
-                let messageIdToDelete = await firebase.getBotMessageID(userID)
+                let messageIdToDelete = await functionHandler.getBotMessageID(service, serviceID)
                 if (messageIdToDelete.messageID)
-                    await messenger.deleteMessage(messageIdToDelete.messageID)
-                await messenger.sendMessage(
-                    content,
-                    messenger.inlineKeyboard(keyboard)
+                    await bot.deleteMessage(serviceID, messageIdToDelete.messageID)
+                await bot.sendMessage(
+                    serviceID,
+                    message,
+                    bot.inlineKeyboard(menu)
                 )
             }
         } else {
             try {
-                let messageIdToDelete = await firebase.getBotMessageID(userID)
+                let messageIdToDelete = await functionHandler.getBotMessageID(service, serviceID)
                 if (messageIdToDelete.messageID)
-                    await messenger.deleteMessage(messageIdToDelete.messageID)
+                    await bot.deleteMessage(serviceID, messageIdToDelete.messageID)
             } catch (err) {
                 console.log(`Could not delete prior message. Error: ${err}`)
             }
-            await messenger.sendMessage(content, messenger.inlineKeyboard(keyboard))
+            await bot.sendMessage(serviceID, message, bot.inlineKeyboard(menu))
         }
     }
 }
 
-const notifier = async (user, sender, txid, amount, url) => {
-    let serviceID = user.services.telegram
-    if (serviceID) {
-        const Responder = require('../../responder')
-        let responder = new Responder(serviceOptions)
-        let message = responder.response('success', 'send', 'recipient', {
-            amount,
-            username: sender
-        })
-
-        let keyboards = require('../../keyboards')
-        let keyboard = keyboards.getKeyboard(true, '/send', '5', true, { txid, url }, '')
-        await sendMessage(serviceID, message, keyboard)
+const formatMenu = (menu) => {
+    if (menu.length === 5) {
+        if ((menu[0] && menu[0].text.length > 17) ||
+            (menu[1] && menu[1].text.length > 17) ||
+            (menu[2] && menu[2].text.length > 17) ||
+            (menu[3] && menu[3].text.length > 17) ||
+            (menu[4] && menu[4].text.length > 17))
+        {
+            let tmpMenu = []
+            menu.forEach(button => {
+                tmpMenu.push([button])
+            })
+            menu = tmpMenu
+        } else {
+            menu = [[menu[0], menu[1]], [menu[2], menu[3]], [menu[4]]]
+        }
     }
+    else if (menu.length === 4) {
+        if ((menu[0] && menu[0].text.length > 17) ||
+            (menu[1] && menu[1].text.length > 17) ||
+            (menu[2] && menu[2].text.length > 17) ||
+            (menu[3] && menu[3].text.length > 17)) {
+
+            menu = [[menu[0], menu[1]], [menu[2], menu[3]]]
+
+        } else {
+            menu = [[menu[0], menu[1], menu[2]], [menu[3]]]
+        }
+    } else {
+        if ((menu[0] && menu[0].text.length > 15) ||
+            (menu[1] && menu[1].text.length > 15) ||
+            (menu[2] && menu[2].text.length > 15))
+        {
+            let tmpMenu = []
+            menu.forEach(button => {
+                tmpMenu.push([button])
+            })
+            menu = tmpMenu
+        }
+    }
+
+    return menu
 }
 
-module.exports = { serviceOptions, middleware, sendMessage, notifier }
+module.exports = {
+    options, initialize, prepareResponse, send
+}
