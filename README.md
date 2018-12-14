@@ -2,9 +2,9 @@
 
 ## 1. What is Lite.IM?
 
-Lite.IM is a full-featured, conversational Litecoin wallet built for use with SMS and instant messaging apps. Users can signup and create their wallet, send and receive litecoin, and check their balance and transaction history, all with a simple set of commands.
+Lite.IM is a full-featured, conversational cryptocurrency wallet built for use with SMS and instant messaging apps. Users can signup and create their wallet, send and receive cryptocurrency, and check their balance and transaction history, all with a simple set of commands.
 
-Currently, Lite.IM supports Telegram, Facebook Messenger, as well as SMS messaging for U.S. phone numbers, with additional app and country support coming soon.
+Currently, Lite.IM supports Telegram, Facebook Messenger, as well as SMS messaging for U.S. phone numbers, with additional app and country support coming soon. Cryptocurrencies currently supported are LTC, ETH, and ZTX.
 
 Lite.IM is a project from the [Zulu Republic](https://www.zulurepublic.io/) team. 
 
@@ -30,9 +30,9 @@ Security is at the forefront of our services. Users' private keys are RSA encryp
 
 User onboarding takes place directly within the bot's chat environment. Users are prompted to register with an email address and password, and to enable two-factor authentication with a mobile phone number. Upon successful registration and confirmation of the received 2FA code, the user's wallet is ready to use. 
 
-By following simple prompts from the bot, users can then send and receive Litecoin, reveal their balance, and view their recent transaction history. 
+By following simple prompts from the bot, users can then send and receive cryptocurrency, reveal their balance, and view their recent transaction history. 
 
-When using the send command, users can send Litecoin to either a valid Litecoin address or to an email address if the recipient is already registered with Lite.IM. 
+When using the send command, users can send cryptocurrency to either a valid wallet address or to an email address if the recipient is already registered with Lite.IM. 
 
 The receive command allows users to reveal their wallet address and/or the email address that they registered with. 
 
