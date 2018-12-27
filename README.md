@@ -4,7 +4,7 @@
 
 Lite.IM is a full-featured, conversational cryptocurrency wallet built for use with SMS and instant messaging apps. Users can signup and create their wallet, send and receive cryptocurrency, and check their balance and transaction history, all with a simple set of commands.
 
-Currently, Lite.IM supports Telegram, Facebook Messenger, as well as SMS messaging for U.S. phone numbers, with additional app and country support coming soon. Cryptocurrencies currently supported are LTC, ETH, and ZTX.
+Currently, Lite.IM supports Telegram, Facebook Messenger, as well as SMS messaging for U.S. and Canadian phone numbers, with additional app and country support coming soon. Cryptocurrencies currently supported are BTC, LTC, ETH, and ZTX.
 
 Lite.IM is a project from the [Zulu Republic](https://www.zulurepublic.io/) team. 
 
@@ -56,12 +56,14 @@ You can also reach the dev team directly on [github](https://github.com/zulurepu
 
 To learn more about Lite.IM, visit the [project website](https://www.lite.im/), as well as the [Zulu Republic website](https://www.zulurepublic.io/) and [blog](www.medium.com/zulurepublic).
 
-The Zulu Republic Telegram community can be found [here](https://t.me/ztxrepublic).
+The Zulu Republic Telegram community can be found [here](https://t.me/zulurepublicagora).
 
-Follow Zulu Republic on Twitter at [@ztxrepublic](www.twitter.com/ztxrepublic).
+Follow Lite.IM on Twitter at [@liteim_official](www.twitter.com/liteim_official) and Zulu Republic at [@ztxrepublic](www.twitter.com/ztxrepublic).
 
 ## 9. What's New In This Version
 
+- Add support for BTC
+- Spanish translations
 - Add support for ZTX and ETH
 - Implement secure webview for exporting private key data
 - Link accounts by phone number during onboarding on a new platform
