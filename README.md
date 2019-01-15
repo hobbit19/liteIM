@@ -22,7 +22,7 @@ Security is at the forefront of our services. Users' private keys are RSA encryp
 
 - Facebook: ([Lite.IM](https://m.me/Lite.IM))
 - Telegram: ([@LiteIM_bot](https://telegram.me/LiteIM_bot))
-- Zalo: ([Lite.IM](zalo.me/162072345184879763))
+- Zalo: ([Lite.IM](https://zalo.me/162072345184879763))
 - SMS: 
     - US/CAN: +1-760-LITEIM-0 (+1-760-548-3460)
 
