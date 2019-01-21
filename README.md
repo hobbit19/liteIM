@@ -1,4 +1,4 @@
-![Lite.IM](liteIM.png?raw=true "Lite.IM")
+<img src="https://raw.githubusercontent.com/zulurepublic/liteIM/master/liteIM.png" alt="LiteIM" width="250"/>
 
 ## 1. What is Lite.IM?
 
